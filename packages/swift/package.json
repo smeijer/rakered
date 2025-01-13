@@ -13,7 +13,8 @@
   "author": "Stephan Meijer <stephan@meijer.ws>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rakered/rakered.git"
+    "url": "git+https://github.com/rakered/rakered.git",
+    "directory": "packages/swift"
   },
   "scripts": {
     "build": "rimraf ./lib *.tsbuildinfo && tsc",

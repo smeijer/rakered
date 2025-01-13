@@ -14,7 +14,8 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rakered/rakered.git"
+    "url": "git+https://github.com/rakered/rakered.git",
+    "directory": "packages/cron"
   },
   "scripts": {
     "build": "npm run clean && tsc",
