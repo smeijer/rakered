@@ -4,7 +4,8 @@
   "description": "An account package for managing user accounts in mongodb, including registration & recovery emails.",
   "keywords": [
     "nodejs",
-    "mongodb"
+    "mongodb",
+    "auth"
   ],
   "main": "./lib/index.js",
   "source": "./src/index.ts",
