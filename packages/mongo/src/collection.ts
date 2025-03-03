@@ -34,7 +34,9 @@ interface IndexResult {
   sparse: boolean;
 }
 
-export type Collection<TSchema> = Omit<
+type Document = Record<string, any>;
+
+export type Collection<TSchema extends Document> = Omit<
   MongoCollection<TSchema>,
   | 'find'
   | 'aggregate'
@@ -43,29 +45,29 @@ export type Collection<TSchema> = Omit<
   | 'initializeUnorderedBulkOp'
 > & {
   pkPrefix?: string;
-  find<T = TSchema>(
+  find<T extends Document = TSchema>(
     query?: FilterQuery<TSchema>,
     options?: FindOneOptions<T extends TSchema ? TSchema : T>,
   ): Promise<T[]>;
-  aggregate<T = TSchema>(
+  aggregate<T extends Document = TSchema>(
     /* eslint-disable-next-line @typescript-eslint/ban-types */
     pipeline?: object,
     options?: CollectionAggregationOptions,
   ): Promise<T[]>;
 
-  paginate<T = TSchema>(
+  paginate<T extends Document = TSchema>(
     query1: FilterQuery<TSchema>,
     options?: ConnectionOptions<T extends TSchema ? TSchema : T>,
   ): Promise<Connection<T>>;
 
-  paginate<T = TSchema>(
+  paginate<T extends Document = TSchema>(
     query2: FilterQuery<TSchema>,
     options: ConnectionOptions<T extends TSchema ? TSchema : T> & {
       type: 'nodes';
     },
   ): Promise<Omit<Connection<T>, 'edges'>>;
 
-  paginate<T = TSchema>(
+  paginate<T extends Document = TSchema>(
     query3: FilterQuery<TSchema>,
     options: ConnectionOptions<T extends TSchema ? TSchema : T> & {
       type: 'edges';
@@ -162,7 +164,7 @@ function createPk(instance) {
   return collection.s.pkFactory.createPk(options);
 }
 
-Collection.prototype.paginate = async function findPage<T>(
+Collection.prototype.paginate = async function findPage<T extends Document>(
   filter: FilterQuery<T>,
   options: ConnectionOptions<T>,
 ) {

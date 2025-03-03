@@ -2,7 +2,9 @@ import { getCursor, parseCursor } from './cursor';
 import { FilterQuery, FindOneOptions, Collection } from 'mongodb';
 import { validatePaginationArgs } from './validatePaginationArgs';
 
-export interface Connection<T> {
+type Document = Record<string, any>;
+
+export interface Connection<T extends Document> {
   totalCount: number;
   pageInfo: {
     hasNextPage: boolean;
@@ -14,7 +16,7 @@ export interface Connection<T> {
   edges: { cursor: string; node: T }[];
 }
 
-export type PaginationArgs<T extends Record<string, any>> = {
+export type PaginationArgs<T extends Document> = {
   sort?: [Extract<keyof T, string>, 'asc' | 'desc'];
   after?: string;
   before?: string;
@@ -22,28 +24,31 @@ export type PaginationArgs<T extends Record<string, any>> = {
   last?: number;
 };
 
-export type ConnectionOptions<T> = Pick<FindOneOptions<T>, 'projection'> &
+export type ConnectionOptions<T extends Document> = Pick<
+  FindOneOptions<T>,
+  'projection'
+> &
   PaginationArgs<T>;
 
-export async function getConnection<T>(
+export async function getConnection<T extends Document>(
   collection: Collection<T>,
   query: FilterQuery<T>,
   options: ConnectionOptions<T>,
 ): Promise<Connection<T>>;
 
-export async function getConnection<T>(
+export async function getConnection<T extends Document>(
   collection: Collection<T>,
   query: FilterQuery<T>,
   options: ConnectionOptions<T> & { type: 'nodes' },
 ): Promise<Omit<Connection<T>, 'edges'>>;
 
-export async function getConnection<T>(
+export async function getConnection<T extends Document>(
   collection: Collection<T>,
   query: FilterQuery<T>,
   options: ConnectionOptions<T> & { type: 'edges' },
 ): Promise<Omit<Connection<T>, 'nodes'>>;
 
-export async function getConnection<T>(
+export async function getConnection<T extends Document>(
   collection: Collection<T>,
   query: FilterQuery<T>,
   options: ConnectionOptions<T> & { type?: 'edges' | 'nodes' } = {},

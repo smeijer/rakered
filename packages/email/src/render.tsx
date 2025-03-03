@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
-import { ReactNode } from 'react';
 
-export function render(vdom: ReactNode): string {
+type VDom = Parameters<typeof renderToStaticMarkup>[0];
+export function render(vdom: VDom): string {
   return `<!doctype html>
     <html lang="en">
       <head>

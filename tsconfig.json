@@ -12,7 +12,8 @@
     "noImplicitAny": false,
     "declaration": true,
     "sourceMap": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "skipLibCheck": true
   },
   "include": ["src", "typings", "global.d.ts"],
   "exclude": ["node_modules", "test/**"],

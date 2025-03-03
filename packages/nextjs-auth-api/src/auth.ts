@@ -38,7 +38,7 @@ const wrap = (
 
   try {
     await fn(req, res, ctx);
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(error.code || 500).json({ message: error.message });
   }

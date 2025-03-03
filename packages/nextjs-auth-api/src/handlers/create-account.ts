@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Context } from '../auth';
 import { createUserResult, UserResult } from '../utils';
 import { setTokenCookies } from '../session/cookies';
+import { AuthTokenResult } from '@rakered/accounts';
 
 /**
  * Signup
@@ -14,8 +15,8 @@ export async function handleCreateAccount(
   ctx: Context,
 ): Promise<UserResult> {
   const tokens = await ctx.accounts.createUser(req.body);
-  if ('accessToken' in tokens) {
-    setTokenCookies(res, tokens);
+  if ('accessToken' in tokens && 'refreshToken' in tokens) {
+    setTokenCookies(res, tokens as AuthTokenResult);
   }
 
   if ('password' in req.body) {
